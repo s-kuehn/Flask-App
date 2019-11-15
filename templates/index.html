@@ -1,9 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Flask App v1</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<h1>Hello World!!!</h1>
+
+<div class='container'>
+	<form action='/send' method="post">
+		<label for="Number One">Cost:</label>
+		<input type="text" placeholder="Cost" name="cost">
+
+		<label for="Number Two">Revenue:</label>
+		<input type="text" placeholder="Revenue" name="revenue">
+
+		<input type="submit" value="Calculate" name="submit">
+	</form>
+</div>
+{% endblock %}
