@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import csv
 
 app = Flask(__name__)
 
@@ -25,6 +26,11 @@ def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
 		# Calculate margin
 		percent = round(abs(float(cost) / float(revenue) - 1) * 100, 2)
 		margin = str(percent) + '%'
+
+		# Write to csv
+		with open('data/margins.csv', 'a', newline='') as csvfile:
+			newdata = csv.writer(csvfile)
+			newdata.writerow([cost, revenue, sum, margin])
 
 		# Return answers
 		return render_template('index.html', sum=sum, margin=margin, cost='$'+cost, revenue='$'+revenue)
