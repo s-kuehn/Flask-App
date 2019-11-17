@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>Hello World!!!</h1>
+<h1>Cost Analysis Calculator</h1>
 
 <div class='container'>
 	<form action='/send' method="post">
@@ -17,8 +17,15 @@
 
 		<input type="submit" value="Calculate" name="submit">
 
-		{{ sum }}
-
 	</form>
+
+	<p>Cost: {{ cost }}</p>
+
+	<p>Revenue: {{ revenue }}</p>
+
+	<p>Profit: {{ sum }}</p>
+
+	<p>Margin: {{ margin }}</p>
+
 </div>
 {% endblock %}
