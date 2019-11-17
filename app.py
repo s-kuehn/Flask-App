@@ -11,7 +11,7 @@ revenue = 0
 def home():
 	return render_template('index.html')
 
-@app.route('/send', methods=['POST'])
+@app.route('/', methods=['POST'])
 def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
 	if request.method == 'POST':
 
