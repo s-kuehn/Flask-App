@@ -5,27 +5,63 @@
 {% endblock %}
 
 {% block body %}
-<h1>Cost Analysis Calculator</h1>
 
-<div class='container'>
-	<form action='/send' method="post">
-		<label for="Number One">Cost:</label>
-		<input type="text" placeholder="Cost" name="cost">
+<div class="container">
+	
+	<div class="row">
+		<div class="col">
+			<div class='card bg-light'>
 
-		<label for="Number Two">Revenue:</label>
-		<input type="text" placeholder="Revenue" name="revenue">
+				<div class='card-header text-center'>
+					<h5>COST ANALYSIS CALCULATOR</h5>
+				</div>
 
-		<input type="submit" value="Calculate" name="submit">
+				<div class="card-body">
 
-	</form>
+					<form action='/send' method="post">
 
-	<p>Cost: {{ cost }}</p>
+						<div class="form-group">
+							<label for="Number One">Cost:</label>
+							<input class="form-control" type="text" placeholder="Cost" name="cost">
+						</div>
 
-	<p>Revenue: {{ revenue }}</p>
+						<div class="form-group">
+							<label for="Number Two">Revenue:</label>
+							<input class="form-control" type="text" placeholder="Revenue" name="revenue">
+						</div>
 
-	<p>Profit: {{ sum }}</p>
+						<div class="form-group">
+							<input class='btn btn-success' type="submit" value="Calculate" name="submit">
+						</div>
 
-	<p>Margin: {{ margin }}</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div class='card bg-light'>
+
+				<div class='card-header text-center'>
+					<h5>RESULTS</h5>
+				</div>
+
+				<div class="card-body">
+
+					<p>Cost: {{ cost }}</p>
+
+					<p>Revenue: {{ revenue }}</p>
+
+					<p>Profit: {{ sum }}</p>
+
+					<p>Margin: {{ margin }}</p>
+
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 {% endblock %}
