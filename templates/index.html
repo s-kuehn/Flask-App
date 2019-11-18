@@ -21,6 +21,11 @@
 					<form action='/' method="post">
 
 						<div class="form-group">
+							<label for="Number One">Name:</label>
+							<input class="form-control" type="text" placeholder="Name" name="name">
+						</div>
+
+						<div class="form-group">
 							<label for="Number One">Cost:</label>
 							<input class="form-control" type="text" placeholder="Cost" name="cost">
 						</div>
@@ -49,6 +54,8 @@
 				</div>
 
 				<div class="card-body">
+
+					<p>Name: {{ name }}</p>
 
 					<p>Cost: {{ cost }}</p>
 

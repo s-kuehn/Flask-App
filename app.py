@@ -9,6 +9,7 @@ app = Flask(__name__)
 margin = 0
 cost = 0
 revenue = 0
+name = ''
 filename = 'margins.csv'
 
 @app.route('/')
@@ -20,6 +21,7 @@ def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
 	if request.method == 'POST':
 
 		# Get variables from input form
+		name = request.form['name']
 		cost = request.form['cost']
 		revenue = request.form['revenue']
 
@@ -31,12 +33,12 @@ def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
 		margin = str(percent) + '%'
 
 		# Write to csv
-		with open('data/margins.csv', 'a', newline='') as csvfile:
+		with open('data/margins.csv', 'a+', newline='') as csvfile:
 			newdata = csv.writer(csvfile)
-			newdata.writerow([cost, revenue, sum, margin])
+			newdata.writerow([name, cost, revenue, sum, margin])
 
 		# Return answers
-		return render_template('index.html', sum=sum, margin=margin, cost='$'+cost, revenue='$'+revenue)
+		return render_template('index.html',name=name, sum=sum, margin=margin, cost='$'+cost, revenue='$'+revenue)
 
 # Download CSV file
 @app.route('/data', methods=['POST', 'GET'])

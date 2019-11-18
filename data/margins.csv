@@ -1,4 +1,4 @@
-cost,revenue,profit,margin
+name,cost,revenue,profit,margin
 10,20,$10,50.0%
 10,20,$10,50.0%
 234,54,$-180.0,333.33%
@@ -9,3 +9,7 @@ cost,revenue,profit,margin
 234,345,$111,32.17%
 234,345,$111,32.17%
 234,345,$111,32.17%
+Panel Town,200,3000,$2800.0,93.33%
+Panel Town,563,781.45,$218.0,27.95%
+Panel Town,563,781.45,$218.0,27.95%
+Panel Town,563,781.45,$218.0,27.95%
