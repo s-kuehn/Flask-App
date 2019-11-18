@@ -55,15 +55,29 @@
 
 				<div class="card-body">
 
-					<p>Name: {{ name }}</p>
+					<div class="table-responsive-lg">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Cost</th>
+									<th scope="col">Revenue</th>
+									<th scope="col">Profit</th>
+									<th scope="col">Margin</th>
+								</tr>
+							</thead>
 
-					<p>Cost: {{ cost }}</p>
-
-					<p>Revenue: {{ revenue }}</p>
-
-					<p>Profit: {{ sum }}</p>
-
-					<p>Margin: {{ margin }}</p>
+							<tbody>
+								<tr>
+									<td>{{ name }}</td>
+									<td>{{ cost }}</td>
+									<td>{{ revenue }}</td>
+									<td>{{ sum }}</td>
+									<td>{{ margin }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
 				</div>
 			</div>

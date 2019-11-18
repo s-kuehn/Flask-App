@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, send_from_directory
-import config
 import csv
 import os
 
@@ -20,6 +19,10 @@ def home():
 def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
 	if request.method == 'POST':
 
+		# margin = 0
+		# cost = 0
+		# revenue = 0
+
 		# Get variables from input form
 		name = request.form['name']
 		cost = request.form['cost']
@@ -33,12 +36,18 @@ def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
 		margin = str(percent) + '%'
 
 		# Write to csv
-		with open('data/margins.csv', 'a+', newline='') as csvfile:
-			newdata = csv.writer(csvfile)
+		with open('data/margins.csv', 'a+') as wcsvfile:
+			newdata = csv.writer(wcsvfile)
 			newdata.writerow([name, cost, revenue, sum, margin])
+
+		# Read from csv
+		with open('data/margins.csv', 'r', newline='') as rcsvfile:
+			readdata = csv.reader(rcsvfile)
+			# newdata.writerow([name, cost, revenue, sum, margin])
 
 		# Return answers
 		return render_template('index.html',name=name, sum=sum, margin=margin, cost='$'+cost, revenue='$'+revenue)
+		return redirect(url_for('register'))
 
 # Download CSV file
 @app.route('/data', methods=['POST', 'GET'])
