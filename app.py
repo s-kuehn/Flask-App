@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
+import config
 import csv
+import os
 
 app = Flask(__name__)
 
@@ -7,6 +9,7 @@ app = Flask(__name__)
 margin = 0
 cost = 0
 revenue = 0
+filename = 'margins.csv'
 
 @app.route('/')
 def home():
@@ -35,10 +38,7 @@ def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
 		# Return answers
 		return render_template('index.html', sum=sum, margin=margin, cost='$'+cost, revenue='$'+revenue)
 
-@app.route('/contact')
-def contact():
-	return 'contact page'
-
-@app.route('/about')
-def about():
-	return 'about page'
+# Download CSV file
+@app.route('/data', methods=['POST', 'GET'])
+def file():
+	return send_from_directory('data/', "margins.csv")
