@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, send_from_directory, redirect
-from flask_sqlalchemy import SQLAlchemy
-import csv
-import os
+# from flask_sqlalchemy import SQLAlchemy
+# import csv
+# import os
 import sqlite3
 
 app = Flask(__name__)
@@ -39,6 +39,7 @@ def home():
 	c = conn.cursor()
 
 	c.execute("""CREATE TABLE IF NOT EXISTS calc (
+				id INTEGER PRIMARY KEY,
 				product text,
 				cost integer,
 				revenue integer,
@@ -54,6 +55,18 @@ def home():
 
 	# Load Page
 	return render_template('index.html', items=items)
+
+@app.route('/delete', methods=['POST', 'GET'])
+def deleteRow():
+	pin = request.args.get('id')
+	print(pin)
+	conn = sqlite3.connect('calculations.db')
+	c = conn.cursor()
+
+	c.execute("DELETE FROM calc WHERE id="+pin+"")
+	conn.commit()
+	conn.close()
+	return redirect('/')
 
 # Download CSV file
 @app.route('/data', methods=['POST', 'GET'])
