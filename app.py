@@ -16,23 +16,23 @@ filename = 'margins.csv'
 @app.route('/', methods=["GET", "POST"])
 def home():
 	if request.form:
-		try:
-			# Initialize variables
-			product = request.form['product']
-			cost = request.form['cost']
-			revenue = request.form['revenue']
-			sum = str(round(float(revenue) - float(cost), 2))
-			percent = round(abs(float(cost) / float(revenue) - 1) * 100, 2)
-			margin = str(percent)
+		# try:
+		# Initialize variables
+		product = request.form['product']
+		cost = request.form['cost']
+		revenue = request.form['revenue']
+		sum = str(round(float(revenue) - float(cost), 2))
+		percent = round(abs(float(cost) / float(revenue) - 1) * 100, 2)
+		margin = str(percent)
 
-			# Add row to database
-			conn = sqlite3.connect('calculations.db')
-			c = conn.cursor()
-			c.execute("INSERT INTO calc(product, cost, revenue, profit, margin) VALUES('name', "+str(cost)+", "+str(revenue)+", "+str(sum)+", "+str(margin)+")")
-			conn.commit()
-			conn.close()
-		except:
-			print('not loading')
+		# Add row to database
+		conn = sqlite3.connect('calculations.db')
+		c = conn.cursor()
+		c.execute("INSERT INTO calc(product, cost, revenue, profit, margin) VALUES("+"'"+product+"'"+", "+str(cost)+", "+str(revenue)+", "+str(sum)+", "+str(margin)+")")
+		conn.commit()
+		conn.close()
+		# except:
+		# 	print('not loading')
 
 	# List all items from database
 	conn = sqlite3.connect('calculations.db')
@@ -40,11 +40,11 @@ def home():
 
 	c.execute("""CREATE TABLE IF NOT EXISTS calc (
 				id INTEGER PRIMARY KEY,
-				product text,
-				cost integer,
-				revenue integer,
-				profit integer,
-				margin integer)""")
+				product TEXT,
+				cost INTEGER,
+				revenue INTEGER,
+				profit INTEGER,
+				margin INTEGER)""")
 
 	c.execute("SELECT * FROM calc")
 	items = c.fetchall()
