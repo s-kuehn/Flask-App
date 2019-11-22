@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, redirect
+from flask_sqlalchemy import SQLAlchemy
 import csv
 import os
+import sqlite3
 
 app = Flask(__name__)
 
@@ -8,48 +10,57 @@ app = Flask(__name__)
 margin = 0
 cost = 0
 revenue = 0
-name = ''
+product = ''
 filename = 'margins.csv'
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def home():
-	return render_template('index.html')
+	if request.form:
+		try:
+			# Initialize variables
+			product = request.form['product']
+			cost = request.form['cost']
+			revenue = request.form['revenue']
+			sum = str(round(float(revenue) - float(cost), 2))
+			percent = round(abs(float(cost) / float(revenue) - 1) * 100, 2)
+			margin = str(percent)
 
-@app.route('/', methods=['POST'])
-def send(sum=sum, margin=margin, cost=cost, revenue=revenue):
-	if request.method == 'POST':
+			# Add row to database
+			conn = sqlite3.connect('calculations.db')
+			c = conn.cursor()
+			c.execute("INSERT INTO calc(product, cost, revenue, profit, margin) VALUES('name', "+str(cost)+", "+str(revenue)+", "+str(sum)+", "+str(margin)+")")
+			conn.commit()
+			conn.close()
+		except:
+			print('not loading')
 
-		# margin = 0
-		# cost = 0
-		# revenue = 0
+	# List all items from database
+	conn = sqlite3.connect('calculations.db')
+	c = conn.cursor()
 
-		# Get variables from input form
-		name = request.form['name']
-		cost = request.form['cost']
-		revenue = request.form['revenue']
+	c.execute("""CREATE TABLE IF NOT EXISTS calc (
+				product text,
+				cost integer,
+				revenue integer,
+				profit integer,
+				margin integer)""")
 
-		# Calculate profit
-		sum = '$' + str(round(float(revenue) - float(cost)))
+	c.execute("SELECT * FROM calc")
+	items = c.fetchall()
+	for item in items:
+		print(item)
+	conn.commit()
+	conn.close()
 
-		# Calculate margin
-		percent = round(abs(float(cost) / float(revenue) - 1) * 100, 2)
-		margin = str(percent) + '%'
-
-		# Write to csv
-		with open('data/margins.csv', 'a+') as wcsvfile:
-			newdata = csv.writer(wcsvfile)
-			newdata.writerow([name, cost, revenue, sum, margin])
-
-		# Read from csv
-		with open('data/margins.csv', 'r', newline='') as rcsvfile:
-			readdata = csv.reader(rcsvfile)
-			# newdata.writerow([name, cost, revenue, sum, margin])
-
-		# Return answers
-		return render_template('index.html',name=name, sum=sum, margin=margin, cost='$'+cost, revenue='$'+revenue)
-		return redirect(url_for('register'))
+	# Load Page
+	return render_template('index.html', items=items)
 
 # Download CSV file
 @app.route('/data', methods=['POST', 'GET'])
 def file():
 	return send_from_directory('data/', "margins.csv")
+
+@app.route('/clear', methods=['POST', 'GET'])
+def clearTable():
+	return render_template('index.html', items=items)
+
