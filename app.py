@@ -92,5 +92,10 @@ def file():
 
 @app.route('/clear', methods=['POST', 'GET'])
 def clearTable():
-	return render_template('index.html', items=items)
+	conn = sqlite3.connect('calculations.db')
+	c = conn.cursor()
+	c.execute("DELETE FROM calc")
+	conn.commit()
+	conn.close()
+	return redirect('/')
 
